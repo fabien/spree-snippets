@@ -22,7 +22,7 @@ ActionController::Base.class_eval do
     return nil unless @snippet
 
     template = ERB.new File.read(File.expand_path(snippet_wrapper_absolute_path))
-    raw template.result(binding)
+    template.result(binding).to_s.html_safe
   end
 
   private
