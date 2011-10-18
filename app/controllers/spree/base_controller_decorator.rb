@@ -1,6 +1,5 @@
 ActionController::Base.class_eval do
-  include ActionView::Helpers::RawOutputHelper
-
+  
   helper_method :render_snippet
 
   # snippet can be something that responds to "slug" and "content", 
