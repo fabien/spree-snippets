@@ -1,7 +1,16 @@
-<%= stylesheet_link_tag 'formtastic' %>
-
-<%= f.inputs do %>
-  <%= f.input :slug %>
-  <%= f.input :content, :as => :text %>
-  <%= f.input :is_active, :as => :boolean %>
+<%= render "spree/shared/error_messages", :target => @snippet %>
+<%= f.field_container :slug do %>
+  <%= f.label :slug %><br />
+  <%= f.text_field :slug, :maxlength => "255", :size => "50" %>
 <% end %>
+
+<%= f.field_container :content do %>
+  <%= f.label :content %><br />
+  <%= f.text_area :content, :wrap => "virtual", :rows => "10", :cols => "60" %>
+<% end %>
+
+<%= f.field_container :is_active do %>
+  <%= f.label :is_active %>
+  <%= f.check_box :is_active %>
+<% end %>
+
