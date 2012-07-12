@@ -4,5 +4,6 @@ en:
   snippets_desc: "Manage snippets with WYM editor."
   snippets_slug: "Slug"
   snippets_content: "Content"
+  snippets_is_active: "Active"
   new_snippet: "New snippet"
   editing_snippet: "Editing snippet"

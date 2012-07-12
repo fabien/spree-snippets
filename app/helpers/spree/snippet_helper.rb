@@ -2,7 +2,7 @@ module Spree::SnippetHelper
 
   # snippet can be something that responds to "slug" and "content",
   # or a slug, or an id
-  def render_snippet(snippet)
+  def render_snippet(snippet, silent = false)
     if snippet.respond_to?('content')
       @snippet = snippet
     elsif snippet.kind_of?(Fixnum)
@@ -13,13 +13,24 @@ module Spree::SnippetHelper
       raise "Unable to handle snippet '#{snippet}'"
     end
 
-    if @snippet.nil?
-raise "Snippet '#{snippet}' not found"
+    if Spree::Config[:spree_snippets_raise_on_missing] && !silent && @snippet.nil?
+      raise "Snippet '#{snippet}' not found"
     end
-    return nil unless @snippet
+    return nil unless @snippet && @snippet.is_active?
 
     template = ERB.new File.read(File.expand_path(snippet_wrapper_absolute_path))
     template.result(binding).html_safe
+  end
+  
+  def render_localized_snippet(snippet, lc = nil)
+    if snippet.kind_of?(String)
+      slug = "/#{lc || I18n.locale}/#{snippet}"
+      localized = render_snippet(slug, true)
+      localized = render_snippet(snippet) unless localized
+      localized
+    else
+      render_snippet(snippet)
+    end
   end
 
   private
